@@ -10,11 +10,9 @@ with open('tokenizer_config.txt', 'r', encoding='utf-8') as f:
     tokenizer_config_dict = eval(tokenizer_config_loaded)
     tokenizer = tf.keras.preprocessing.text.Tokenizer.from_config(tokenizer_config_dict)
 
-# Le añadimos a la tabla una columna para las respuestas
-testData["respuestas"] = ""
-for index, row in testData.iterrows():
-    respuesta = modelo.predict(row['preguntas']) # iteramos sobre las preguntas para pedirle cada una al modelo
-    testData.at[index, 'respuestas'] = respuesta # y obviamente las guardamos cada una en su fila correspondiente
+for index, row in testData.iterrows(): # iteramos sobre la tabla para hacer lo siguiente
+    respuesta = modelo.predict(testData.at[index, 'preguntas']) # le pedimos, para cada pregunta, la respuesta al modelo
+    testData.at[index, 'respuestas'] = respuesta # y guardamos cada respuesta en su fila correspondiente
 
 # Y queda exportar la nueva tabla
 testData.to_csv(quotechar='"', lineterminator=",")
