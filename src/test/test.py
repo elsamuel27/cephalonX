@@ -1,6 +1,7 @@
 import pandas as pd
 import tensorflow as tf
 from sys import argv
+import os
 
 # Cargamos el modelo y los datos de prueba
 modelo = tf.keras.models.load_model(argv[1])
@@ -15,4 +16,6 @@ for index, row in testData.iterrows(): # iteramos sobre la tabla para hacer lo s
     testData.at[index, 'respuestas'] = respuesta # y guardamos cada respuesta en su fila correspondiente
 
 # Y queda exportar la nueva tabla
-testData.to_csv(quotechar='"', lineterminator=",")
+os.makedirs("salidas")
+testData.to_csv("salidas/test.csv", quotechar='"', lineterminator=",")
+testData.to_html("salidas/test.html")
